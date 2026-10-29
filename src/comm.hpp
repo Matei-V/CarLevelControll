@@ -15,6 +15,7 @@ public:
   }
 
   void write_sample(int16_t value);
+  void write_sample(int16_t accel_x, int16_t accel_z, int16_t gyro_y);
 };
 
 class SPI {

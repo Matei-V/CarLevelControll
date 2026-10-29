@@ -33,6 +33,32 @@ void UART::write_sample(int16_t value) {
   uart_putchar((char)(high ^ low));
 }
 
+void UART::write_sample(int16_t accel_x, int16_t accel_z, int16_t gyro_y) {
+  const uint16_t raw_ax = (uint16_t)accel_x;
+  const uint8_t ax_h = (uint8_t)(raw_ax >> 8);
+  const uint8_t ax_l = (uint8_t)raw_ax;
+
+  const uint16_t raw_az = (uint16_t)accel_z;
+  const uint8_t az_h = (uint8_t)(raw_az >> 8);
+  const uint8_t az_l = (uint8_t)raw_az;
+
+  const uint16_t raw_gy = (uint16_t)gyro_y;
+  const uint8_t gy_h = (uint8_t)(raw_gy >> 8);
+  const uint8_t gy_l = (uint8_t)raw_gy;
+
+  const uint8_t checksum = ax_h ^ ax_l ^ az_h ^ az_l ^ gy_h ^ gy_l;
+
+  uart_putchar((char)0xA5);
+  uart_putchar((char)0x5A);
+  uart_putchar((char)ax_h);
+  uart_putchar((char)ax_l);
+  uart_putchar((char)az_h);
+  uart_putchar((char)az_l);
+  uart_putchar((char)gy_h);
+  uart_putchar((char)gy_l);
+  uart_putchar((char)checksum);
+}
+
 
 void SPI::spi_masterInit() {
   DDRB = (1 << DDB5) | (1 << DDB3) | (1 << DDB2);
