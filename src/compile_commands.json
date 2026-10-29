@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "/home/matei/Embedded/CarLevelControll/comm",
+    "command": "/usr/bin/avr-gcc -c -Os -mmcu=atmega328p -DF_CPU=16000000UL -I./include -o build/main.o src/main.cpp",
+    "file": "uart.cpp"
+  }
+]
